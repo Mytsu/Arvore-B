@@ -97,21 +97,30 @@ class ArvoreB:
     def inserir(self, chave):
         self._inserir(chave, self.raiz, None)
 
-    def buscad(self, chave, node):
+    def _busca(self, chave, node):
         if node is None or len(node.filhos) == 0:
             return None
         
-        pos = node._ultima_pos(chave
+        pos = node._ultima_pos(chave)
 
-        if pos >= 1 and node.chaves[pos - 1] == key:
+        if pos >= 1 and node.chaves[pos - 1] == chave:
             return node.chaves[pos - 1]
         else:
             return self._busca(chave, node.filhos[pos])
-
+    
     def busca(self, chave):
         return self._busca(chave, self.raiz)
-    )
-
-        
-
     
+def teste0():
+    T = ArvoreB(6)
+    rng = list(range(9000))
+    shuffle(rng)
+    for i in rng:
+        T.inserir(i)
+    
+    for i in range(9):
+        print(T.busca(i), '\n')
+
+if __name__ == '__main__':
+    import sys
+    teste0()
