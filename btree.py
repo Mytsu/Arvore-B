@@ -17,7 +17,7 @@ class ArvoreB:
             e = len(self.filhos) - 1
             while b < e:
                 meio = (b + e + 1) // 2
-                if self.chaves[meio - 1] <= chave
+                if self.chaves[meio - 1] <= chave:
                     b = meio
                 else:
                     e = meio - 1
@@ -37,7 +37,7 @@ class ArvoreB:
             right.chaves = node.chaves[self.m:]
             left.filhos = node.filhos[:self.m]
             right.filhos = node.filhos[self.m:]
-            self.raiz.chaves [node.chaves[self.m - 1]]
+            self.raiz.chaves = [node.chaves[self.m - 1]]
             self.raiz.filhos = [left, right]
             return self.raiz
         else:
@@ -55,9 +55,9 @@ class ArvoreB:
 
         # node esta cheio, e deve ser raiz
         if len(node.chaves) == 2 * self.m - 1:
-            assert node = self.root
+            assert node == self.raiz
             node = self._split(node, parnode, -1)
-            assert len(node,chaves) == 1
+            assert len(node.chaves) == 1
 
             # para a direita
             if node.chaves[0] <= chave:
@@ -68,7 +68,7 @@ class ArvoreB:
             return
         
         # somente possivel para a raiz no começo
-        if len(node.filhos) == 0
+        if len(node.filhos) == 0:
             assert node == self.raiz
             node.filhos.append(None)
             node.chaves.append(chave)
@@ -85,14 +85,14 @@ class ArvoreB:
         else:
             # filho esta cheio, fazendo split por aqui            
             if node.filhos[pos] is not None and len(node.filhos[pos].chaves) == 2 * self.m - 1:
-                self._split(node.sons[pos], node, pos)
+                self._split(node.filhos[pos], node, pos)
                 # vai para a direita
-                if node.keys[pos] <= chave:
-                    self._inserir(chave, node.sons[pos + 1], node)
+                if node.chaves[pos] <= chave:
+                    self._inserir(chave, node.filhos[pos + 1], node)
                 else:
                     self._inserir(chave, node.filhos[pos], node)
             else:
-                self._insert(chave, node.filhos[pos], node)
+                self._inserir(chave, node.filhos[pos], node)
 
     def inserir(self, chave):
         self._inserir(chave, self.raiz, None)
@@ -122,5 +122,6 @@ def teste0():
         print(T.busca(i), '\n')
 
 if __name__ == '__main__':
+    from random import shuffle
     import sys
     teste0()
