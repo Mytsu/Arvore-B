@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 #
 
+from random import shuffle
+import sys
+
 class ArvoreB:
     
     class Node:
@@ -44,7 +47,7 @@ class ArvoreB:
             left = self.Node()
             right = self.Node()
             left.chaves = node.chaves[:self.m - 1]
-            right.chaves = node.chaves[self.m]
+            right.chaves = node.chaves[self.m:]
             left.filhos = node.filhos[:self.m]
             right.filhos = node.filhos[self.m:]
             parnode.chaves = parnode.chaves[:pos] + [node.chaves[self.m - 1]] + parnode.chaves[pos:]
@@ -126,6 +129,5 @@ def teste0():
         print(T.busca(i), '\n')
 
 if __name__ == '__main__':
-    from random import shuffle
-    import sys
-    teste0()
+    if sys.argv[1] == 'test':
+        teste0()
