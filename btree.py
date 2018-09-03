@@ -44,7 +44,7 @@ class ArvoreB:
             left = self.Node()
             right = self.Node()
             left.chaves = node.chaves[:self.m - 1]
-            right.chaves = node.chaves[self.m:]
+            right.chaves = node.chaves[self.m]
             left.filhos = node.filhos[:self.m]
             right.filhos = node.filhos[self.m:]
             parnode.chaves = parnode.chaves[:pos] + [node.chaves[self.m - 1]] + parnode.chaves[pos:]
@@ -89,7 +89,7 @@ class ArvoreB:
             # filho esta cheio, fazendo split
             if node.filhos[pos] is not None and len(node.filhos[pos].chaves) == 2 * self.m - 1:
                 self._split(node.filhos[pos], node, pos)
-                # para direita
+                # go to right
                 if node.chaves[pos] <= chave:
                     self._inserir(chave, node.filhos[pos + 1], node)
                 else:
@@ -113,9 +113,10 @@ class ArvoreB:
     
     def busca(self, chave):
         return self._busca(chave, self.raiz)
-    
+
+# testes
 def teste0():
-    T = ArvoreB(2)
+    T = ArvoreB(6)
     rng = list(range(9000))
     shuffle(rng)
     for i in rng:
