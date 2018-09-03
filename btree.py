@@ -12,7 +12,7 @@ class ArvoreB:
         def __repr__(self):
             return 'Node' + str(self.chaves) + str(self.filhos)
 
-        def _ultima_pos(self, chave):
+        def _limite_inferior(self, chave):
             b = 0
             e = len(self.filhos) - 1
             while b < e:
@@ -44,7 +44,7 @@ class ArvoreB:
             left = self.Node()
             right = self.Node()
             left.chaves = node.chaves[:self.m - 1]
-            right.chaves = node.chaves[self.m]
+            right.chaves = node.chaves[self.m:]
             left.filhos = node.filhos[:self.m]
             right.filhos = node.filhos[self.m:]
             parnode.chaves = parnode.chaves[:pos] + [node.chaves[self.m - 1]] + parnode.chaves[pos:]
@@ -53,12 +53,12 @@ class ArvoreB:
     def _inserir(self, chave, node, parnode):
         if node is None: return None
 
-        # node esta cheio, e deve ser raiz
+        # node esta cheio e deve ser a raiz
         if len(node.chaves) == 2 * self.m - 1:
             assert node == self.raiz
             node = self._split(node, parnode, -1)
             assert len(node.chaves) == 1
-
+            
             # para a direita
             if node.chaves[0] <= chave:
                 self._inserir(chave, node.filhos[1], node)
@@ -73,20 +73,23 @@ class ArvoreB:
             node.filhos.append(None)
             node.chaves.append(chave)
             node.filhos.append(None)
-
+        
             return
         
-        pos = node._ultima_pos(chave)
+        
+        pos = node._limite_inferior(chave)
 
-        # estamos em uma folha
+        
+        # em uma folha
         if node.filhos[pos] is None:
             node.chaves = node.chaves[:pos] + [chave] + node.chaves[pos:]
             node.filhos.append(None)
         else:
-            # filho esta cheio, fazendo split por aqui            
+            
+            # filho esta cheio, fazendo split
             if node.filhos[pos] is not None and len(node.filhos[pos].chaves) == 2 * self.m - 1:
                 self._split(node.filhos[pos], node, pos)
-                # vai para a direita
+                # para direita
                 if node.chaves[pos] <= chave:
                     self._inserir(chave, node.filhos[pos + 1], node)
                 else:
@@ -101,7 +104,7 @@ class ArvoreB:
         if node is None or len(node.filhos) == 0:
             return None
         
-        pos = node._ultima_pos(chave)
+        pos = node._limite_inferior(chave)
 
         if pos >= 1 and node.chaves[pos - 1] == chave:
             return node.chaves[pos - 1]
@@ -112,7 +115,7 @@ class ArvoreB:
         return self._busca(chave, self.raiz)
     
 def teste0():
-    T = ArvoreB(6)
+    T = ArvoreB(2)
     rng = list(range(9000))
     shuffle(rng)
     for i in rng:
